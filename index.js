@@ -7,13 +7,16 @@ const url = "https://www.coingecko.com/es";
 function getCoin(){
 
     return axios.get(url)
-    .then( rest => rest.data )
-    .then( body => {
+    .then( rest => {
 
-        // Create an Api from data of Web
-        var $ = cheerio.load(body);
+        const $ = cheerio.load( rest.data );
 
-    } );
+        const names = $('td.coin-name div div.center a:first-of-type');
+        
+
+    });
 
 
 }
+
+getCoin();
