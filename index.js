@@ -19,4 +19,6 @@ function getCoin(){
 
 }
 
+console.log('hola');
+
 getCoin();
