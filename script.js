@@ -1,6 +1,8 @@
 //const cheerio = require('cheerio');
+const Axios = require("axios");
 const puppeteer = require('puppeteer');
 const url = "https://coinmarketcap.com/";
+const urlSlack = ""
 
 (async () => {
 
@@ -62,8 +64,9 @@ const url = "https://coinmarketcap.com/";
         cryptos.push({ name: this.cryptoName[i], price: this.prices[i], priceChanged: this.weekPriceChange[i], marketCap: this.marketCap[i] });
     }
 
-    console.log(cryptos);
-    console.log(cryptos.length)
+    for (i = 0; i <= 4; i++) {
+        await slackAlert(JSON.stringify(cryptos[i]));
+    }
 
     await browser.close();
 
@@ -72,17 +75,33 @@ const url = "https://coinmarketcap.com/";
 async function scrollDown(page) {
 
 
-        const distance = 100;
-        var totalHeight = 0;
-        const delay = 100;
+    const distance = 100;
+    var totalHeight = 0;
+    const delay = 100;
 
 
 
-        while (totalHeight <= await page.evaluate(() => document.scrollingElement.scrollTop)) {
+    while (totalHeight <= await page.evaluate(() => document.scrollingElement.scrollTop)) {
 
-            await page.evaluate((delay) => { document.scrollingElement.scrollBy(0, delay); }, distance);
-            totalHeight += distance;
-            await page.waitForTimeout(delay);
-        }
+        await page.evaluate((delay) => { document.scrollingElement.scrollBy(0, delay); }, distance);
+        totalHeight += distance;
+        await page.waitForTimeout(delay);
+    }
 
 }
+
+
+async function slackAlert(data) {
+
+    try {
+        await Axios.post(
+            urlSlack,
+            {
+                text: data
+            }
+        )
+    } catch (error) {
+        console.log(error.response)
+    }
+}
+
