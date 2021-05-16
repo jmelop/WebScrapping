@@ -3,6 +3,16 @@ const Axios = require("axios");
 const puppeteer = require('puppeteer');
 const url = "https://coinmarketcap.com/";
 const urlSlack = ""
+var nodemailer = require('nodemailer');
+
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'example1@gmail.com',
+        pass: '1234'
+    }
+});
+
 
 (async () => {
 
@@ -58,15 +68,23 @@ const urlSlack = ""
         return data.map(td => td.innerText)
     })
 
-
+    // Push all data
 
     for (i = 0; i <= this.cryptoName.length - 1; i++) {
         cryptos.push({ name: this.cryptoName[i], price: this.prices[i], priceChanged: this.weekPriceChange[i], marketCap: this.marketCap[i] });
     }
 
+    // Send Slack notification
+
     for (i = 0; i <= 4; i++) {
         await slackAlert(JSON.stringify(cryptos[i]));
     }
+
+    //Send Email
+
+    await sendEmail(cryptos[0]);
+
+
 
     await browser.close();
 
@@ -103,5 +121,23 @@ async function slackAlert(data) {
     } catch (error) {
         console.log(error.response)
     }
+}
+
+async function sendEmail(data) {
+
+    var mailOptions = {
+        from: 'example@gmail.com',
+        to: 'example2@gmail.com',
+        subject: 'Alerta Cryptomonedas',
+        text: JSON.stringify(data)
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
 }
 
