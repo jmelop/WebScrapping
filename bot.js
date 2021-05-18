@@ -7,7 +7,7 @@ Promise.config({
 // Importamos la librería node-telegram-bot-api 
 const TelegramBot = require('node-telegram-bot-api');
 const { get } = require('cheerio/lib/api/traversing');
-const token = '1837847545:AAENfSaevSZxV3YKPW97N7QlUbGD6XJ3luI';
+const token = 'XXXXXX -- XXXXXX';
 //const Agent = require('socks5-https-client/lib/Agent');
 const bot = new TelegramBot(token, {polling:true});
 
