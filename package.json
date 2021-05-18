@@ -1,0 +1,19 @@
+{
+  "name": "proyecto-grupo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^12.5.3",
+    "dotenv": "^9.0.2",
+    "nodemailer": "^6.6.0",
+    "process.argv": "^0.6.0",
+    "puppeteer": "^9.1.1"
+  },
+  "devDependencies": {},
+  "description": ""
+}
